@@ -76,12 +76,6 @@ function Home() {
         aria-hidden={coverState !== 'open'}
       >
         <div className="mx-auto flex min-h-[100dvh] max-w-[1440px] flex-col px-5 pb-8 pt-7 sm:px-10 sm:pt-10">
-        <header className="intro mx-auto flex w-full max-w-6xl items-center justify-between border-b border-[#8a6257]/20 pb-4">
-          <a href="#home" aria-label="بداية الدعوة" className="text-xl font-bold tracking-wide text-[#765449]">حبيبة وإبراهيم</a>
-          <p className="text-sm text-[#826d61]">دعوة من القلب</p>
-          <a href="#التفاصيل" className="rounded-full border border-[#8a6257]/25 px-4 py-2 text-sm text-[#765449] transition hover:bg-[#8a6257]/[0.07] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8a6257]">تفاصيل اليوم</a>
-        </header>
-
         <section id="home" className="intro relative mx-auto flex w-full max-w-6xl flex-1 items-center justify-center py-14 sm:py-20">
           <div className="paper-card relative w-full max-w-[820px] px-7 py-14 text-center sm:px-16 sm:py-[4.8rem]">
             <div className="absolute -left-8 top-1/2 hidden -translate-y-1/2 text-[#ad8b71]/65 md:block" aria-hidden="true">
