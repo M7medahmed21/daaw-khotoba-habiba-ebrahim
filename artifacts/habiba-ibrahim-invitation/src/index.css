@@ -357,6 +357,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
   top: 8px;
   left: 50%;
   z-index: 1;
+  visibility: hidden;
   display: flex;
   width: min(78%, 295px);
   height: clamp(255px, 35vh, 285px);
@@ -521,6 +522,7 @@ button, a { -webkit-tap-highlight-color: transparent; }
 
 .invitation-cover.is-opening .invitation-cover__letter {
   z-index: 6;
+  visibility: visible;
   animation: invitation-letter-emerge 1.3s .08s cubic-bezier(.2, .75, .2, 1) both;
 }
 

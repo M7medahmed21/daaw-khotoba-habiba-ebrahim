@@ -158,6 +158,7 @@ function Home() {
           lang="ar-EG"
           onAnimationEnd={(event) => {
             if (event.target === event.currentTarget && coverState === 'opening') {
+              window.scrollTo(0, 0);
               setCoverState('open');
             }
           }}
