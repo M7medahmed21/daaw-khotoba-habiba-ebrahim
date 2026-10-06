@@ -4,7 +4,7 @@ import { ErrorBoundary } from '@/components/error-boundary';
 import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import NotFound from '@/pages/not-found';
-import { CalendarDays, MoveDown, Sparkle } from 'lucide-react';
+import { CalendarDays, MapPin, MoveDown, Sparkle } from 'lucide-react';
 import {
   Route,
   Switch,
@@ -122,6 +122,16 @@ function Home() {
           <p className="mb-5 text-sm tracking-wide text-[#987b68]">موعد فرحتنا</p>
           <h2 className="font-names text-3xl font-bold text-[#765449] sm:text-4xl" data-testid="text-event-date">الاثنين 12 أكتوبر 2026</h2>
           <p className="mt-3 text-xl text-[#625147]" data-testid="text-event-time">الساعة 7 مساءً</p>
+          <a
+            href="https://maps.app.goo.gl/WpbsipRGAumHbqVs5"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="عرض موقع الاحتفال على خرائط Google"
+            className="mt-6 inline-flex items-center gap-2 rounded-full border border-[#8a6257]/25 px-5 py-2.5 text-[#765449] transition hover:-translate-y-0.5 hover:bg-[#8a6257]/[0.07] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#8a6257]"
+          >
+            <MapPin size={17} strokeWidth={1.5} aria-hidden="true" />
+            <span>الموقع على الخريطة</span>
+          </a>
           <div className="mx-auto my-9 flex max-w-[490px] items-center gap-5">
             <span className="fine-rule flex-1" />
             <CalendarDays size={18} strokeWidth={1.35} className="text-[#987b68]" aria-hidden="true" />
