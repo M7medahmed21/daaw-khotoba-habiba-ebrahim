@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "installCommand": "pnpm install",
+  "buildCommand": "pnpm --filter @workspace/habiba-ibrahim-invitation build",
+  "outputDirectory": "artifacts/habiba-ibrahim-invitation/dist/public",
+  "framework": null,
+  "build": {
+    "env": {
+      "BASE_PATH": "/",
+      "PORT": "4173",
+      "NODE_ENV": "production"
+    }
+  },
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
