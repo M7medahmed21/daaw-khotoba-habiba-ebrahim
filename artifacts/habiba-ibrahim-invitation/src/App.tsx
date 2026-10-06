@@ -15,8 +15,19 @@ import {
 const queryClient = new QueryClient();
 
 function Home() {
+  const [coverState, setCoverState] = useState<'closed' | 'opening' | 'open'>('closed');
   const [countdown, setCountdown] = useState({ days: '٠٠٠', hours: '٠٠', minutes: '٠٠', seconds: '٠٠' });
   const [eventPassed, setEventPassed] = useState(false);
+
+  useEffect(() => {
+    if (coverState === 'open') return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [coverState]);
 
   useEffect(() => {
     // Cairo is UTC+03:00 on 12 October 2026.
@@ -56,54 +67,15 @@ function Home() {
     return () => observer.disconnect();
   }, []);
 
-  const addToCalendar = () => {
-    const calendar = [
-      'BEGIN:VCALENDAR',
-      'VERSION:2.0',
-      'PRODID:-//Habiba and Ibrahim//Engagement Invitation//AR',
-      'CALSCALE:GREGORIAN',
-      'METHOD:PUBLISH',
-      'BEGIN:VTIMEZONE',
-      'TZID:Africa/Cairo',
-      'BEGIN:DAYLIGHT',
-      'TZOFFSETFROM:+0200',
-      'TZOFFSETTO:+0300',
-      'TZNAME:EEST',
-      'DTSTART:20260424T000000',
-      'RRULE:FREQ=YEARLY;BYMONTH=4;BYDAY=-1FR',
-      'END:DAYLIGHT',
-      'BEGIN:STANDARD',
-      'TZOFFSETFROM:+0300',
-      'TZOFFSETTO:+0200',
-      'TZNAME:EET',
-      'DTSTART:20261029T000000',
-      'RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1TH',
-      'END:STANDARD',
-      'END:VTIMEZONE',
-      'BEGIN:VEVENT',
-      'UID:habiba-ibrahim-engagement-20261012@invitation.local',
-      'DTSTAMP:20260101T000000Z',
-      'DTSTART;TZID=Africa/Cairo:20261012T190000',
-      'DTEND;TZID=Africa/Cairo:20261012T200000',
-      'SUMMARY:خطوبة حبيبة وإبراهيم',
-      'DESCRIPTION:يسعدنا أن تشاركونا فرحتنا في يومنا المميز.',
-      'END:VEVENT',
-      'END:VCALENDAR',
-    ].join('\r\n');
-    const file = new Blob([calendar], { type: 'text/calendar;charset=utf-8' });
-    const url = URL.createObjectURL(file);
-    const anchor = document.createElement('a');
-    anchor.href = url;
-    anchor.download = 'خطوبة-حبيبة-وإبراهيم.ics';
-    document.body.appendChild(anchor);
-    anchor.click();
-    anchor.remove();
-    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
-  };
-
   return (
-    <main className="invitation-page" dir="rtl" lang="ar">
-      <div className="mx-auto flex min-h-[100dvh] max-w-[1440px] flex-col px-5 pb-8 pt-7 sm:px-10 sm:pt-10">
+    <>
+      <main
+        className={`invitation-page ${coverState === 'open' ? 'invitation-page--revealed' : 'invitation-page--covered'}`}
+        dir="rtl"
+        lang="ar"
+        aria-hidden={coverState !== 'open'}
+      >
+        <div className="mx-auto flex min-h-[100dvh] max-w-[1440px] flex-col px-5 pb-8 pt-7 sm:px-10 sm:pt-10">
         <header className="intro mx-auto flex w-full max-w-6xl items-center justify-between border-b border-[#8a6257]/20 pb-4">
           <a href="#home" aria-label="بداية الدعوة" className="text-xl font-bold tracking-wide text-[#765449]">حبيبة وإبراهيم</a>
           <p className="text-sm text-[#826d61]">دعوة من القلب</p>
@@ -165,15 +137,6 @@ function Home() {
             <span className="mt-1 text-2xl text-[#bc9d83]">:</span>
             <TimeUnit value={countdown.seconds} label="ثانية" />
           </div>
-          <button
-            type="button"
-            onClick={addToCalendar}
-            data-testid="button-add-calendar"
-            className="calendar-button mt-10 inline-flex items-center gap-3 rounded-full bg-[#81594f] px-7 py-3.5 text-lg text-[#fffaf1] shadow-[0_8px_24px_rgba(99,67,56,.15)]"
-          >
-            <CalendarDays size={18} strokeWidth={1.6} aria-hidden="true" />
-            أضف للموعد
-          </button>
           <p className="mt-3 text-sm text-[#8b7568]">احفظوا الموعد في تقويمكم، وسنكون بانتظاركم</p>
         </section>
 
@@ -181,8 +144,41 @@ function Home() {
           <p className="font-names text-2xl font-bold text-[#765449]">حبيبة وإبراهيم</p>
           <p className="mt-1 text-sm text-[#8b7568]">فرحتنا تكتمل بوجودكم</p>
         </footer>
-      </div>
-    </main>
+        </div>
+      </main>
+
+      {coverState !== 'open' && (
+        <div className={`invitation-cover ${coverState === 'opening' ? 'is-opening' : ''}`} dir="rtl" lang="ar">
+          <button
+            type="button"
+            className="invitation-cover__card"
+            aria-label="افتح دعوة خطوبة حبيبة وإبراهيم"
+            disabled={coverState === 'opening'}
+            onClick={() => setCoverState('opening')}
+            onAnimationEnd={(event) => {
+              if (event.target === event.currentTarget && coverState === 'opening') {
+                setCoverState('open');
+              }
+            }}
+          >
+            <span className="invitation-cover__paper">
+              <span className="invitation-cover__seal" aria-hidden="true">
+                <Sparkle size={19} strokeWidth={1.2} />
+              </span>
+              <span className="invitation-cover__eyebrow">دعوة خطوبة</span>
+              <span className="invitation-cover__names font-names">
+                حبيبة <span className="invitation-cover__and">و</span> إبراهيم
+              </span>
+              <span className="invitation-cover__date">الاثنين 12 أكتوبر 2026</span>
+              <span className="invitation-cover__open">
+                <span>اضغطوا لفتح الدعوة</span>
+                <MoveDown size={16} strokeWidth={1.3} aria-hidden="true" />
+              </span>
+            </span>
+          </button>
+        </div>
+      )}
+    </>
   );
 }
 

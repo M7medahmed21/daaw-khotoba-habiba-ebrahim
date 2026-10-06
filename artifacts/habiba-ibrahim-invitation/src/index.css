@@ -297,6 +297,173 @@ button, a { -webkit-tap-highlight-color: transparent; }
   overflow: hidden;
 }
 
+.invitation-page--covered { visibility: hidden; }
+.invitation-page--revealed { animation: invitation-page-in .8s ease both; }
+
+.invitation-cover {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  padding: 1.5rem;
+  background:
+    radial-gradient(ellipse at 14% 8%, rgba(210, 189, 158, .2), transparent 29rem),
+    radial-gradient(ellipse at 92% 53%, rgba(206, 179, 158, .16), transparent 31rem),
+    #f1ede4;
+}
+
+.invitation-cover::before {
+  content: '';
+  position: absolute;
+  inset: 1rem;
+  border: 1px solid rgba(138, 98, 87, .13);
+  pointer-events: none;
+}
+
+.invitation-cover__card {
+  width: min(100%, 430px);
+  min-height: min(660px, calc(100dvh - 3rem));
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #493a33;
+  cursor: pointer;
+  perspective: 1200px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.invitation-cover__card:focus-visible {
+  outline: 2px solid #8a6257;
+  outline-offset: 6px;
+  border-radius: 2px;
+}
+
+.invitation-cover__card:disabled { cursor: default; }
+
+.invitation-cover__paper {
+  position: relative;
+  display: flex;
+  min-height: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(2.5rem, 9vh, 4.5rem) 1.5rem;
+  border: 1px solid rgba(146, 113, 94, .28);
+  background: rgba(250, 248, 242, .88);
+  box-shadow: 0 24px 80px rgba(91, 68, 52, .09), inset 0 0 0 7px rgba(250, 248, 242, .6);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.invitation-cover__paper::before,
+.invitation-cover__paper::after {
+  content: '';
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border-color: rgba(138, 98, 87, .46);
+  border-style: solid;
+  pointer-events: none;
+}
+
+.invitation-cover__paper::before {
+  top: 13px;
+  right: 13px;
+  border-width: 1px 1px 0 0;
+}
+
+.invitation-cover__paper::after {
+  bottom: 13px;
+  left: 13px;
+  border-width: 0 0 1px 1px;
+}
+
+.invitation-cover__seal {
+  display: grid;
+  width: 3.25rem;
+  height: 3.25rem;
+  place-items: center;
+  margin-bottom: 1.4rem;
+  border: 1px solid rgba(174, 144, 120, .55);
+  border-radius: 50%;
+  color: #8a6257;
+}
+
+.invitation-cover__eyebrow {
+  color: #8c7568;
+  font-size: 1.1rem;
+  letter-spacing: .04em;
+}
+
+.invitation-cover__names {
+  margin-top: .8rem;
+  color: #765449;
+  font-size: clamp(2.65rem, 11vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.invitation-cover__and {
+  padding-inline: .12em;
+  color: #b28d70;
+  font-size: .68em;
+  font-weight: 400;
+}
+
+.invitation-cover__date {
+  margin-top: .5rem;
+  color: #8a6257;
+  font-size: 1.05rem;
+}
+
+.invitation-cover__open {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .55rem;
+  margin-top: clamp(2.5rem, 8vh, 4rem);
+  color: #9a7c69;
+  font-size: .95rem;
+  transition: color .2s ease, transform .2s ease;
+}
+
+.invitation-cover__card:not(:disabled):hover .invitation-cover__paper {
+  transform: translateY(-3px);
+  box-shadow: 0 30px 90px rgba(91, 68, 52, .13), inset 0 0 0 7px rgba(250, 248, 242, .6);
+}
+
+.invitation-cover__card:not(:disabled):hover .invitation-cover__open {
+  color: #765449;
+  transform: translateY(2px);
+}
+
+.invitation-cover.is-opening {
+  pointer-events: none;
+  animation: invitation-cover-fade .76s ease both;
+}
+
+.invitation-cover.is-opening .invitation-cover__card {
+  animation: invitation-card-open .76s cubic-bezier(.2, .75, .2, 1) both;
+}
+
+@keyframes invitation-card-open {
+  0% { transform: translateY(0) rotateX(0) scale(1); opacity: 1; }
+  35% { transform: translateY(-1rem) rotateX(-5deg) scale(.98); opacity: 1; }
+  100% { transform: translateY(-65vh) rotateX(-12deg) scale(.92); opacity: 0; }
+}
+
+@keyframes invitation-cover-fade {
+  to { opacity: 0; }
+}
+
+@keyframes invitation-page-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .font-names {
   font-family: 'Aref Ruqaa Swashes Fixed Bold', 'Aref Ruqaa', serif;
 }
