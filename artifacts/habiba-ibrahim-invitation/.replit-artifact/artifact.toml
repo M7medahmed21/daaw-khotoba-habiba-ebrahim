@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "دعوة خطوبة حبيبة وإبراهيم"
+description = "دعوة خطوبة عربية تفاعلية لحبيبة وإبراهيم، تعرض تفاصيل المناسبة مع عدّ تنازلي وإمكانية إضافة الموعد إلى التقويم."
+version = "1.0.0"
+id = "artifacts/habiba-ibrahim-invitation"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21864
+
+[services.development]
+run = "pnpm --filter @workspace/habiba-ibrahim-invitation run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/habiba-ibrahim-invitation", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/habiba-ibrahim-invitation/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21864"
+BASE_PATH = "/"
