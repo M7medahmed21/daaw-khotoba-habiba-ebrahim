@@ -1,8 +1,8 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "installCommand": "pnpm install --prod=false",
-  "buildCommand": "pnpm --filter @workspace/habiba-ibrahim-invitation build",
-  "outputDirectory": "artifacts/habiba-ibrahim-invitation/dist/public",
+  "buildCommand": "pnpm --filter @workspace/habiba-ibrahim-invitation build && mkdir -p /vercel/output/static && cp -r artifacts/habiba-ibrahim-invitation/dist/public/* /vercel/output/static/",
+  "outputDirectory": "/vercel/output/static",
   "framework": null,
   "build": {
     "env": {
