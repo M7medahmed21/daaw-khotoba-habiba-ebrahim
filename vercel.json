@@ -1,18 +1,19 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "services": {
-    "api-server": {
-      "root": "artifacts/api-server",
-      "framework": "express"
-    },
-    "habiba-ibrahim-invitation": {
-      "root": "artifacts/habiba-ibrahim-invitation",
-      "framework": "vite"
-    },
-    "mockup-sandbox": {
-      "root": "artifacts/mockup-sandbox",
-      "framework": "vite"
+  "installCommand": "pnpm install --prod=false",
+  "buildCommand": "pnpm --filter @workspace/habiba-ibrahim-invitation build",
+  "outputDirectory": "artifacts/habiba-ibrahim-invitation/dist/public",
+  "framework": null,
+  "build": {
+    "env": {
+      "BASE_PATH": "/",
+      "PORT": "4173"
     }
   },
-  "rewrites": []
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
 }
